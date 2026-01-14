@@ -9,7 +9,7 @@ Application web de gestion de clinique avec détection automatique du cancer cer
 - **Dashboard administrateur** : Suivi des analyses, statistiques et gestion des utilisateurs
 - **Sécurité** : Chiffrement des images médicales, authentification sécurisée
 - **Notifications email** : Envoi automatique des résultats d'analyse
-- **Interface multilingue** : Support français et anglais
+- **Interface multilingue** : Support français et anglais et arabe
 
 ## 🛠️ Technologies
 
@@ -32,8 +32,8 @@ Application web de gestion de clinique avec détection automatique du cancer cer
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/votre-username/cervical-clinic.git
-cd cervical-clinic
+git clone https://github.com/hind-za/cervicalcancerdetection-clinic
+cd cervicalcancerdetection-clinic
 ```
 
 ### 2. Installer les dépendances PHP
@@ -46,12 +46,13 @@ composer install
 
 ```bash
 copy .env.example .env
-php artisan key:generate
 ```
 
 Modifiez le fichier `.env` avec vos paramètres :
 
 ```env
+APP_KEY=base64:lQSDklKs4c85QQSbkuibW31ogiaswlpJySahdcuaBPM=
+
 DB_DATABASE=cervicare
 DB_USERNAME=root
 DB_PASSWORD=votre_mot_de_passe
@@ -63,8 +64,24 @@ MAIL_USERNAME=votre_email@gmail.com
 MAIL_PASSWORD=votre_mot_de_passe_app
 ```
 
+**Note** : La clé APP_KEY fournie ci-dessus est celle utilisée pour le projet. Vous pouvez la garder ou générer une nouvelle avec `php artisan key:generate`.
+
 ### 4. Créer la base de données
 
+**Option 1 - Importer la base de données existante (Recommandé) :**
+
+Téléchargez la base de données depuis : https://drive.google.com/drive/folders/19EzLflfQa1NE5Hmz4OXHLwct1tzpE9d7?usp=drive_link
+
+Puis importez-la :
+```bash
+# Créer la base de données
+mysql -u root -p -e "CREATE DATABASE cervicare;"
+
+# Importer le fichier SQL
+mysql -u root -p cervicare < chemin/vers/cervicare.sql
+```
+
+**Option 2 - Créer une nouvelle base de données :**
 ```bash
 php artisan migrate
 php artisan db:seed
@@ -87,13 +104,9 @@ pip install -r requirements.txt
 
 ⚠️ **Important** : Le modèle TensorFlow n'est pas inclus dans le dépôt (trop volumineux).
 
-
-**Option 1 - Télécharger le modèle pré-entraîné :**
+**Télécharger le modèle pré-entraîné :**
 - Téléchargez depuis : https://drive.google.com/drive/folders/1gcvpT0XxrJWvnkWqVRhVybWR1wUdvdK-?usp=drive_link
-- Placez-le dans `flask_api/mon_modele.h5`
-
-**Option 2 - Mode test sans modèle :**
-- L'API peut fonctionner en mode test sans le modèle pour les tests d'intégration
+- Placez le fichier `mon_modele.h5` dans le dossier `flask_api/`
 
 ## 🎮 Démarrage
 
@@ -139,8 +152,8 @@ python app.py
 - Mot de passe : IMANE@2003
 
 **Patient :**
--Email: salmabender@gmail.com
--Mot de passe: SALMA@2004
+- Email : salmabender@gmail.com
+- Mot de passe : SALMA@2004
 
 ## 📁 Structure du projet
 
