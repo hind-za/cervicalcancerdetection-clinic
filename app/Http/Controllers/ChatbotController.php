@@ -21,10 +21,10 @@ class ChatbotController extends Controller
 
         $message = strtolower(trim($request->message));
         $user = Auth::user();
-        
+
         // Analyser le message et générer une réponse
         $response = $this->generateResponse($message, $user);
-        
+
         return response()->json([
             'success' => true,
             'response' => $response,
@@ -38,10 +38,10 @@ class ChatbotController extends Controller
     private function generateResponse($message, $user)
     {
         $role = $user->role;
-        
+
         // Mots-clés et réponses selon le rôle
         $responses = $this->getResponsesByRole($role, $user);
-        
+
         // Rechercher une correspondance
         foreach ($responses as $keywords => $response) {
             $keywordList = explode('|', $keywords);
@@ -51,7 +51,7 @@ class ChatbotController extends Controller
                 }
             }
         }
-        
+
         // Réponse par défaut si aucune correspondance
         return $this->getDefaultResponse($role, $user);
     }
@@ -62,7 +62,7 @@ class ChatbotController extends Controller
     private function getResponsesByRole($role, $user)
     {
         $commonResponses = [
-            'bonjour|salut|hello|bonsoir' => "Bonjour {name} ! Comment puis-je vous aider aujourd'hui ?",
+            'bonjour|salut|hello|bonsoir' => "Bonjour {name} ! Comment je peux vous aider aujourd'hui ?",
             'merci|remercie' => "Je vous en prie ! N'hésitez pas si vous avez d'autres questions.",
             'au revoir|bye|à bientôt' => "Au revoir {name} ! Bonne journée et n'hésitez pas à revenir si vous avez des questions.",
             'aide|help|aidez-moi' => "Je suis là pour vous aider ! Posez-moi vos questions sur {domain}.",
@@ -158,7 +158,7 @@ class ChatbotController extends Controller
         };
 
         $suggestionsList = implode('", "', $suggestions);
-        
+
         return "Je ne suis pas sûr de comprendre votre question. Voici quelques suggestions : \"" . $suggestionsList . "\". Ou posez-moi une question plus spécifique !";
     }
 
